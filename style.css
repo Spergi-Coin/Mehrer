@@ -78,11 +78,9 @@ body {
     right: 0;
     width: 5em;
     height: 5em;
-    background-color: #e6e7e8;
 }
   
 .corner .corner-trianlge {
-    position: absolute;
     width: 0;
     height: 0;
     border-style: solid;
