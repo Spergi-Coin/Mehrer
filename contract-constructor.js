@@ -70,7 +70,7 @@ var app = new Vue({
           this.getContractOptions(),
           this.getContractParams());
       contructConstructor.getCode()
-        .then(res => saveAs(res, `${this.symbol || 'MYT'}Code.zip`))
+        .then(res => saveAs(res, `${this.symbol.toUpperCase() || 'MYT'}.zip`))
     },
     getContractOptions: function() {
       const options = []

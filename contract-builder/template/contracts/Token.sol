@@ -6,6 +6,6 @@ import "../node_modules/openzeppelin-solidity/contracts/token/ERC20/ERC20Mintabl
 // Main token smart contract
 contract {{symbol}}Token is ERC20Mintable {
   string public constant name = "{{name}}";
-  string public constant symbol = "{{symbol}}";
+  string public constant symbol = "{{symbolUpper}}";
   uint8 public constant decimals = {{decimals}};
 }

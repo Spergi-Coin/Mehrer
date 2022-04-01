@@ -1,5 +1,5 @@
 const token = artifacts.require('../contracts/{{symbol}}Token.sol')
-const crowdsale = artifacts.require('../contracts/{{symbol}}Crowdsale.sol')
+const crowdsale = artifacts.require('../contracts/{{symbol}}TokenSale.sol')
 const setDefaultAccount = require('../scripts/setDefaultAccount.js')
 
 module.exports = function(deployer, network, accounts) {

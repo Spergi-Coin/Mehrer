@@ -6,6 +6,23 @@ const ContractOptions = {
   Whitelisted: 'Whitelisted', // Whitelisted
 }
 
+/**
+ * Function to convert a string into the form Uppercase(0)-lowercase(1+)
+ * @param {[string]} str
+ * @return converted string
+ * @example
+ * // returns "Sperg"
+ * normalizeStr("SPERG")
+ */
+function normalizeStr(str) {
+  // Check for null, undefined and empty string
+  if (!str) return;
+
+  first = str.charAt(0).toUpperCase()
+  following = str.substring(1).toLowerCase()
+  return first + following
+}
+
 class ContractConstructor {
   /**
    * Constructor method for the ContractConstructor
@@ -14,7 +31,7 @@ class ContractConstructor {
    */
   constructor(name, symbol, decimals, rate, wallet, contractOptions, contractParams) {
     this.name = name || 'My Token'
-    this.symbol = (symbol || 'MYT').toUpperCase()
+    this.symbol = (normalizeStr(symbol || 'MYT'))
     this.decimals = decimals || 18
     this.rate = rate || 250
     this.wallet = wallet || '0x281055afc982d96fab65b3a49cac8b878184cb16'
@@ -90,7 +107,7 @@ class ContractConstructor {
         var zip = new JSZip();
         // Get generated files
         zip.file(`contracts/${this.symbol}Token.sol`, token)
-        zip.file(`contracts/${this.symbol}Crowdsale.sol`, crowdsale)
+        zip.file(`contracts/${this.symbol}TokenSale.sol`, crowdsale)
         zip.file('migrations/1_initial_migration.js', migration)
         // Add dummy migration to silence truffle error
         zip.file('contracts/Migrations.sol', migrations)
@@ -110,7 +127,7 @@ class ContractConstructor {
   }
 
   /**
-   * Method to get a string representaion of Token.sol, Crowdsale.sol and migrations.js
+   * Method to get a string representaion of Token.sol, TokenSale.sol and migrations.js
    * @return same contracts as getCode() but as one string for a visual representation
    */
   getCodeText() {
@@ -129,7 +146,7 @@ class ContractConstructor {
       .then((response) => {
         migration = response;
 
-        return `### Token.sol\n\n${token}\n\n### Crodwsale.sol\n\n${crowdsale}\n\n### 1_initial_migration.js\n\n${migration}`
+        return `### ${this.symbol}Token.sol\n\n${token}\n\n### ${this.symbol}TokenSale.sol\n\n${crowdsale}\n\n### 1_initial_migration.js\n\n${migration}`
       })
   }
 
@@ -141,6 +158,8 @@ class ContractConstructor {
       .then((response) => {
         return response.data
           .replace(/{{symbol}}/g, this.symbol)
+          .replace(/{{symbolUpper}}/g, this.symbol.toUpperCase())
+          .replace(/{{symbol}}/g, this.symbol)
           .replace(/{{name}}/g, this.name)
           .replace(/{{decimals}}/g, this.decimals)
       })
@@ -150,7 +169,7 @@ class ContractConstructor {
    * Function to get modified token file
    */
   getCrowdsale() {
-    return axios.get('contract-builder/template/contracts/Crowdsale.sol')
+    return axios.get('contract-builder/template/contracts/TokenSale.sol')
       .then((response) => {
         return response.data
           .replace(/{{symbol}}/g, this.symbol)
